@@ -2,6 +2,7 @@
 .grill/
 drafts/
 research/
+tmp/
 
 # python
 __pycache__/
