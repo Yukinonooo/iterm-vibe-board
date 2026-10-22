@@ -8,6 +8,11 @@ follows [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Supervise the panel HTTP service with a per-user macOS LaunchAgent, independent
+  of the iTerm API script, and keep its URL stable across crashes.
+- Show an explicit stale-data banner while disconnected, bound request timeouts,
+  disable offline edits, and refresh the board on reconnection.
+
 - Detect the iTerm2 uv runtime under `~/Library/Application Support/iTerm2/uv/venvs/`
   as well as the XDG and legacy runtime locations, so installed runtimes are not
   incorrectly reported as missing.
