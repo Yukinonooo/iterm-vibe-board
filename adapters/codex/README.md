@@ -89,3 +89,8 @@ VIBEBOARD_TEST_CODEX=/absolute/path/to/codex pytest -q tests/test_codex_runtime.
 这个测试仅在隔离调用中临时跳过测试 hooks 的信任校验；正常安装始终要求
 用户通过 `/hooks` 审核。iTerm2 面板的实际点击和焦点切换仍需启用其 Python API
 与 runtime 后验证，不把 CLI 生命周期测试当作 UI 测试。
+
+同日实机补充：iTerm2 3.7.5 的 runtime 也可能位于
+`~/Library/Application Support/iTerm2/uv/venvs/3.12/bin/python3`。安装器已支持此布局；
+已验证面板注册、本地 HTTP 服务及当前会话的看板数据正常。两条 Codex hooks
+均已启用并可信时，不需要重复信任；最后在 View → Toolbelt 中勾选 Vibe Board。

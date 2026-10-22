@@ -6,6 +6,12 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Detect the iTerm2 uv runtime under `~/Library/Application Support/iTerm2/uv/venvs/`
+  as well as the XDG and legacy runtime locations, so installed runtimes are not
+  incorrectly reported as missing.
+
 ### Added
 
 - Codex CLI adapter: lifecycle hooks using the supported session fields, a scoped

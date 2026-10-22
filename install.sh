@@ -70,8 +70,9 @@ EOF
 }
 
 runtime_python() { # iTerm2's own Python runtime, which runs AutoLaunch scripts
-  # 3.7 installs it with uv under ~/.config/iterm2; older versions under Application Support.
+  # uv runtimes can live under either AppSupport root; keep the older layout too.
   ls -d "$HOME/.config/iterm2/AppSupport/uv/venvs/"*/bin/python3 \
+        "$HOME/Library/Application Support/iTerm2/uv/venvs/"*/bin/python3 \
         "$HOME/Library/Application Support/iTerm2/iterm2env/versions/"*/bin/python3 2>/dev/null | tail -1
 }
 
