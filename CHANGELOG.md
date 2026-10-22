@@ -6,6 +6,20 @@ follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Detect the iTerm2 uv runtime under `~/Library/Application Support/iTerm2/uv/venvs/`
+  as well as the XDG and legacy runtime locations, so installed runtimes are not
+  incorrectly reported as missing.
+
+### Added
+
+- Codex CLI adapter: lifecycle hooks using the supported session fields, a scoped
+  skill, and `install.sh --agent codex|all`. Configuration merges preserve unrelated
+  hooks; uninstall keeps the shared CLI/panel when the other adapter is installed.
+- Adapter subprocess tests for task ownership, resume, nested sessions, tmux and
+  non-iTerm2 behavior, and safe/idempotent configuration changes.
+
 ### Changed
 
 - Items have no numbers any more. They are named by title, or by any unique

@@ -9,6 +9,20 @@ every AI coding agent running in your panes.
 
 [中文说明](README.zh-CN.md)
 
+## Codex CLI 适配（此 fork）
+
+新增 Codex CLI 的 skill 与 `SessionStart` / `SessionEnd` hooks，复用原有看板、CLI
+和数据格式。安装：
+
+```sh
+./install.sh --agent codex    # 只接入 Codex，不改 Claude Code 配置
+./install.sh --agent all      # 同时接入两种 agent
+```
+
+在 iTerm2 中用 `codex --no-daemon` 启动，在 `/hooks` 中审核并信任新 hooks，
+重新打开会话后生效。tmux、远程 app-server 不支持自动窗格绑定。
+详细步骤与限制见 [Codex CLI 适配说明](adapters/codex/README.md)。
+
 ## Why
 
 When several Claude Code sessions run at once, iTerm2's built-in *Session
@@ -87,7 +101,7 @@ Data lives in `~/.iterm-vibe-board/`: one JSON file per item under
 
 ## Not in the first version
 
-A graph or Gantt view, Homebrew formula, adapters for other agents. The data model already reserves the fields these
+A graph or Gantt view, Homebrew formula, adapters beyond Claude Code and Codex. The data model already reserves the fields these
 need.
 
 ## Layout

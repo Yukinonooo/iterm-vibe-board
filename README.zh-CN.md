@@ -2,7 +2,7 @@
 
 住在 iTerm2 侧栏里的进度看板，以人为中心，你和每个 pane 里跑着的 AI coding agent 一起维护。
 
-> **状态：0.1，早期。**面板、`vibeboard` 命令行、Claude Code 适配层和 `install.sh` 都能从 clone 里跑起来；1.0 之前数据格式还可能改。
+> **状态：0.1，早期。**面板、`vibeboard` 命令行、Claude Code / Codex CLI 适配层和 `install.sh` 都能从 clone 里跑起来；1.0 之前数据格式还可能改。
 
 [English](README.md)
 
@@ -20,7 +20,7 @@ agent 那一侧的任务清单（Claude Code 自带的 `TaskCreate`，以及大�
 
 - **一个面板三页**，在 iTerm2 侧栏（View › Toolbelt › Vibe Board）：
   - **Global**：所有的事，按项目分组；一个筛选框可以只看一个项目或一个 session。
-  - **Project**：聚焦 pane 里的会话所在项目的事（按 Claude Code 启动目录算）。
+  - **Project**：聚焦 pane 里的会话所在项目的事（由对应 agent 的会话启动事件确定）。
   - **Session**：聚焦 pane 里的会话正在推的事。
 
   Project 和 Session 绑定你点进的 pane，和 iTerm2 的 Notes 一样。
@@ -35,7 +35,26 @@ agent 那一侧的任务清单（Claude Code 自带的 `TaskCreate`，以及大�
 - **agent 用 `vibeboard` 命令行改**。`vibeboard instructions` 打印规则：动手前把计划写成子步骤；计划外的事先登记再处理；绕路结束后说一句下一条计划是什么。会话靠它所在的 pane 识别。
 - **Claude Code 适配层**：一个装着这些规则的 skill，加两个 hook（`SessionStart`、`SessionEnd`）把 pane 对应到会话。见 [adapters/claude-code](adapters/claude-code/README.md)。
 
-## 试一下
+## Codex CLI 版
+
+此 fork 增加了 Codex CLI 的会话绑定和 skill。适配代码在
+[`liangguotao/feat-codex-adapter`](https://github.com/Yukinonooo/iterm-vibe-board/tree/liangguotao/feat-codex-adapter) 分支：
+
+```sh
+git clone --branch liangguotao/feat-codex-adapter https://github.com/Yukinonooo/iterm-vibe-board
+cd iterm-vibe-board
+./install.sh --agent codex
+```
+
+安装保留现有 Codex hooks，不修改 Claude Code 配置。随后在 iTerm2 中用
+`codex --no-daemon` 启动，通过 `/hooks` 审核并信任新 hooks，再打开新会话。
+已有包装脚本如果自带 `--no-daemon`，直接用包装脚本即可。
+
+同时接入两种 agent 用 `./install.sh --agent all`；卸载 Codex 用
+`./install.sh --agent codex --uninstall`。任务数据保留；还有另一个适配器时也保留
+共享 CLI 和面板。详细行为、依赖及限制见 [Codex 适配说明](adapters/codex/README.md)。
+
+## 原版 Claude Code 安装
 
 ```sh
 git clone https://github.com/KosmoCHE/iterm-vibe-board && cd iterm-vibe-board
@@ -50,11 +69,11 @@ git clone https://github.com/KosmoCHE/iterm-vibe-board && cd iterm-vibe-board
 
 - macOS，iTerm2 3.5 以上，开启 Python API（Settings › General › Magic），并装好它的 Python 运行时（Scripts › Manage › Install Python Runtime），面板脚本靠它跑。
 - 命令行要 Python 3.9 以上，Xcode 命令行工具自带的那个就够。
-- Claude Code（第一个 agent 适配层）。
+- Claude Code，或支持命令 hooks 与 `/hooks` 的 Codex CLI。
 
 ## 第一版不做
 
-图或甘特视图、Homebrew、其他 agent 的适配。数据模型已经给这些预留了字段。
+图或甘特视图、Homebrew、Claude Code / Codex 以外 agent 的适配。数据模型已经给这些预留了字段。
 
 ## 目录
 
@@ -63,6 +82,7 @@ vibeboard/               Python 包：存储、命令行、本地 HTTP 服务（
 panel/                侧栏页面：纯 HTML、CSS、JS，无构建
 iterm/                注册面板的 iTerm2 AutoLaunch 脚本
 adapters/claude-code/ Claude Code 的 skill 和 hook
+adapters/codex/       Codex CLI 的 skill、hook 和配置安装器
 tests/                pytest，只测核心逻辑
 install.sh            把上面这些链接到位
 ```
